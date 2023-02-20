@@ -1,10 +1,9 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import {Pressable, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import styles from './formulario.styles';
-import {generarID} from '../../helpers';
-import {soloNumeros} from '../../helpers/soloNumeros';
+import {generarID, soloNumeros} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
+import styles from './formulario.styles';
 
 interface FormularioGastoProps {
   setModal: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +18,8 @@ const FormularioGasto: FC<FormularioGastoProps> = ({setModal, onGasto}) => {
   const onCloseModal = () => setModal(false);
   const onAddGasto = () => {
     const id = generarID();
-    onGasto({nombre, cantidad, categoria, id});
+    const fecha = Date.now();
+    onGasto({nombre, cantidad, categoria, id, fecha});
   };
   const handleCantidad = (cantidad: string) => {
     const nuevaCantidad = soloNumeros(cantidad);

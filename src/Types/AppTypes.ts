@@ -3,9 +3,10 @@ export interface gastoProp {
   categoria: string;
   id: string;
   nombre: string;
+  fecha: number;
 }
 
-export interface categoria {
+export interface categorias {
   ahorro: string;
   comida: string;
   casa: string;

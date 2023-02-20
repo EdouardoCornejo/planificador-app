@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Text, View} from 'react-native';
-import styles from './listadoGastos.styles';
 import Gasto from './Gasto';
 import {gastoProp} from '../../Types/AppTypes';
+import styles from './listadoGastos.styles';
 
 interface ListadoGastosProps {
   gastos: gastoProp[];

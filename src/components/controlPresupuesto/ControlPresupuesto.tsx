@@ -1,8 +1,8 @@
 import React, {FC, useState, useEffect} from 'react';
 import {View, Image, Text} from 'react-native';
-import styles from './control.styles';
 import {formatearCantidad} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
+import styles from './control.styles';
 
 interface ControlPresupuestoProps {
   presupuesto: number;
