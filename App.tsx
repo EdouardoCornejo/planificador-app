@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert, Pressable, Image, Modal} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  Pressable,
+  Image,
+  Modal,
+  ScrollView,
+} from 'react-native';
 import {
   Header,
   NuevoPresupuesto,
@@ -36,23 +44,25 @@ const App = () => {
   const onCloseModal = () => setModal(!modal);
   return (
     <View style={styles.contenedor}>
-      <View style={styles.header}>
-        <Header />
-        {isValid ? (
-          <ControlPresupuesto
-            presupuesto={Number(presupuesto)}
-            gastos={gastos}
-          />
-        ) : (
-          <NuevoPresupuesto
-            handleNuevoPresupuesto={handleNuevoPresupuesto}
-            presupuesto={presupuesto}
-            setPresupuesto={setPresupuesto}
-          />
-        )}
-      </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <Header />
+          {isValid ? (
+            <ControlPresupuesto
+              presupuesto={Number(presupuesto)}
+              gastos={gastos}
+            />
+          ) : (
+            <NuevoPresupuesto
+              handleNuevoPresupuesto={handleNuevoPresupuesto}
+              presupuesto={presupuesto}
+              setPresupuesto={setPresupuesto}
+            />
+          )}
+        </View>
 
-      {isValid && <ListadoGastos />}
+        {isValid && <ListadoGastos gastos={gastos} />}
+      </ScrollView>
 
       {modal && (
         <Modal
@@ -79,6 +89,7 @@ export default App;
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#3B82F6',
+    minHeight: 400,
   },
   contenedor: {
     backgroundColor: '#F5F5F5',
@@ -88,7 +99,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     position: 'absolute',
-    top: 10,
-    right: 20,
+    bottom: 40,
+    right: 30,
   },
 });
