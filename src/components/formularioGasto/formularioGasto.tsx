@@ -8,14 +8,22 @@ import styles from './formulario.styles';
 interface FormularioGastoProps {
   setModal: Dispatch<SetStateAction<boolean>>;
   onGasto: (gasto: gastoProp) => void;
+  setGasto: (gasto: gastoProp) => void;
 }
 
-const FormularioGasto: FC<FormularioGastoProps> = ({setModal, onGasto}) => {
+const FormularioGasto: FC<FormularioGastoProps> = ({
+  setModal,
+  onGasto,
+  setGasto,
+}) => {
   const [nombre, setNombre] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [categoria, setCategoria] = useState('');
 
-  const onCloseModal = () => setModal(false);
+  const onCloseModal = () => {
+    setModal(false);
+    setGasto({});
+  };
   const onAddGasto = () => {
     const id = generarID();
     const fecha = Date.now();

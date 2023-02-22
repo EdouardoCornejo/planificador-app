@@ -7,6 +7,7 @@ import styles from './gasto.styles';
 interface GastoProps {
   gasto: gastoProp;
   setModal: Dispatch<SetStateAction<boolean>>;
+  setGasto: (gasto: gastoProp) => void;
 }
 
 const diccionarioIconos = {
@@ -19,9 +20,12 @@ const diccionarioIconos = {
   suscripciones: require('../../img/icono_suscripciones.png'),
 };
 
-const Gasto: FC<GastoProps> = ({gasto, setModal}) => {
+const Gasto: FC<GastoProps> = ({gasto, setModal, setGasto}) => {
   const {cantidad, categoria, nombre, fecha} = gasto;
-  const handleAcciones = () => setModal(true);
+  const handleAcciones = () => {
+    setModal(true);
+    setGasto(gasto);
+  };
   return (
     <Pressable onLongPress={handleAcciones}>
       <View style={styles.contenedor}>
