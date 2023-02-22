@@ -21,7 +21,13 @@ const App = () => {
   const [isValid, setIsValid] = useState(false);
   const [presupuesto, setPresupuesto] = useState('0');
   const [gastos, setGastos] = useState<gastoProp[]>([]);
-  const [gasto, setGasto] = useState({});
+  const [gasto, setGasto] = useState({
+    cantidad: '',
+    categoria: '',
+    id: '',
+    nombre: '',
+    fecha: 0,
+  });
   const [modal, setModal] = useState(false);
 
   const handleNuevoPresupuesto = (presupuesto: string) => {
@@ -80,6 +86,7 @@ const App = () => {
             setModal={setModal}
             onGasto={handleGasto}
             setGasto={setGasto}
+            gasto={gasto}
           />
         </Modal>
       )}

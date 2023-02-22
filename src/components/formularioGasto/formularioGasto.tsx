@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, {Dispatch, FC, SetStateAction, useState, useEffect} from 'react';
 import {Pressable, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {generarID, soloNumeros} from '../../helpers';
@@ -9,21 +9,38 @@ interface FormularioGastoProps {
   setModal: Dispatch<SetStateAction<boolean>>;
   onGasto: (gasto: gastoProp) => void;
   setGasto: (gasto: gastoProp) => void;
+  gasto: gastoProp;
 }
 
 const FormularioGasto: FC<FormularioGastoProps> = ({
   setModal,
   onGasto,
   setGasto,
+  gasto,
 }) => {
   const [nombre, setNombre] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [categoria, setCategoria] = useState('');
 
+  useEffect(() => {
+    if (gasto?.nombre) {
+      setNombre(gasto.nombre);
+      setCantidad(gasto.cantidad);
+      setCategoria(gasto.categoria);
+    }
+  }, [gasto]);
+
   const onCloseModal = () => {
     setModal(false);
-    setGasto({});
+    setGasto({
+      cantidad: '',
+      categoria: '',
+      id: '',
+      nombre: '',
+      fecha: 0,
+    });
   };
+
   const onAddGasto = () => {
     const id = generarID();
     const fecha = Date.now();
@@ -44,7 +61,9 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
       </View>
 
       <View style={styles.formulario}>
-        <Text style={styles.titulo}>Nuevo Gasto</Text>
+        <Text style={styles.titulo}>
+          {gasto?.nombre ? 'Editar Gasto' : 'Nuevo Gasto'}
+        </Text>
 
         <View style={styles.campo}>
           <Text style={styles.label}>Nombre Gasto</Text>
@@ -81,7 +100,10 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
           </Picker>
         </View>
         <Pressable style={styles.submitBtn} onPress={onAddGasto}>
-          <Text style={styles.submitBtnTexto}>Agregar Gasto</Text>
+          <Text style={styles.submitBtnTexto}>
+            {' '}
+            {gasto?.nombre ? 'Actualizar Registro' : 'Agregar Gasto'}
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
