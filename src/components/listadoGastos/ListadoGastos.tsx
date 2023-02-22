@@ -1,10 +1,38 @@
-import React, {FC} from 'react';
-import {Text} from 'react-native';
+import React, {Dispatch, FC, SetStateAction} from 'react';
+import {Text, View} from 'react-native';
+import Gasto from './Gasto';
+import {gastoProp} from '../../Types/AppTypes';
+import styles from './listadoGastos.styles';
 
-interface ListadoGastosProps {}
+interface ListadoGastosProps {
+  gastos: gastoProp[];
+  setModal: Dispatch<SetStateAction<boolean>>;
+  setGasto: (gasto: gastoProp) => void;
+}
 
-const ListadoGastos: FC<ListadoGastosProps> = () => {
-  return <Text>Listado Gastos</Text>;
+const ListadoGastos: FC<ListadoGastosProps> = ({
+  gastos,
+  setModal,
+  setGasto,
+}) => {
+  return (
+    <View style={styles.contenedor}>
+      <Text style={styles.titulo}>Listado Gastos</Text>
+
+      {gastos.length === 0 ? (
+        <Text style={styles.noGasto}>No hay gastos</Text>
+      ) : (
+        gastos.map(gasto => (
+          <Gasto
+            key={gasto.id}
+            gasto={gasto}
+            setModal={setModal}
+            setGasto={setGasto}
+          />
+        ))
+      )}
+    </View>
+  );
 };
 
 export default ListadoGastos;

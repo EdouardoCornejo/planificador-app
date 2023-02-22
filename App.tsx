@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert, Pressable, Image, Modal} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  Pressable,
+  Image,
+  Modal,
+  ScrollView,
+} from 'react-native';
 import {
   Header,
   NuevoPresupuesto,
@@ -7,12 +15,20 @@ import {
   FormularioGasto,
   ListadoGastos,
 } from './src/components/';
+import {generarID} from './src/helpers';
 import {gastoProp} from './src/Types/AppTypes';
 
 const App = () => {
   const [isValid, setIsValid] = useState(false);
   const [presupuesto, setPresupuesto] = useState('0');
   const [gastos, setGastos] = useState<gastoProp[]>([]);
+  const [gasto, setGasto] = useState({
+    cantidad: '',
+    categoria: '',
+    id: '',
+    nombre: '',
+    fecha: 0,
+  });
   const [modal, setModal] = useState(false);
 
   const handleNuevoPresupuesto = (presupuesto: string) => {
@@ -25,46 +41,103 @@ const App = () => {
   };
 
   const handleOpen = () => setModal(!modal);
+
   const handleGasto = (gasto: gastoProp) => {
-    if (Object.values(gasto).includes('')) {
+    if ([gasto.nombre, gasto.categoria, gasto.cantidad].includes('')) {
       Alert.alert('Error:', 'Todos los campos son obligatorios');
       return;
     }
-    setGastos([...gastos, gasto]);
+
+    if (gasto.id) {
+      const gastosActualizados = gastos.map((gastoState: gastoProp) =>
+        gastoState.id === gasto.id ? gasto : gastoState,
+      );
+      setGastos(gastosActualizados);
+      setGasto({
+        cantidad: '',
+        categoria: '',
+        id: '',
+        nombre: '',
+        fecha: 0,
+      });
+    } else {
+      gasto.id = generarID();
+      gasto.fecha = Date.now();
+      setGastos([...gastos, gasto]);
+    }
+
     setModal(!modal);
   };
+
+  const eliminarGasto = (id: string) => {
+    Alert.alert('¿Deseas Eliminar este gasto?', 'No se puede revertir', [
+      {text: 'Cancelar', style: 'cancel'},
+      {
+        text: 'Confirmar',
+        onPress: () => {
+          const gastosActualizados = gastos.filter(
+            gastoState => gastoState.id !== id,
+          );
+          setGastos(gastosActualizados);
+          setGasto({
+            cantidad: '',
+            categoria: '',
+            id: '',
+            nombre: '',
+            fecha: 0,
+          });
+          setModal(!Modal);
+        },
+      },
+    ]);
+  };
+
   const onCloseModal = () => setModal(!modal);
   return (
     <View style={styles.contenedor}>
-      <View style={styles.header}>
-        <Header />
-        {isValid ? (
-          <ControlPresupuesto
-            presupuesto={Number(presupuesto)}
+      <ScrollView>
+        <View style={styles.header}>
+          <Header />
+          {isValid ? (
+            <ControlPresupuesto
+              presupuesto={Number(presupuesto)}
+              gastos={gastos}
+            />
+          ) : (
+            <NuevoPresupuesto
+              handleNuevoPresupuesto={handleNuevoPresupuesto}
+              presupuesto={presupuesto}
+              setPresupuesto={setPresupuesto}
+            />
+          )}
+        </View>
+
+        {isValid && (
+          <ListadoGastos
             gastos={gastos}
-          />
-        ) : (
-          <NuevoPresupuesto
-            handleNuevoPresupuesto={handleNuevoPresupuesto}
-            presupuesto={presupuesto}
-            setPresupuesto={setPresupuesto}
+            setModal={setModal}
+            setGasto={setGasto}
           />
         )}
-      </View>
-
-      {isValid && <ListadoGastos />}
+      </ScrollView>
 
       {modal && (
         <Modal
           visible={modal}
           animationType="slide"
           onRequestClose={onCloseModal}>
-          <FormularioGasto setModal={setModal} onGasto={handleGasto} />
+          <FormularioGasto
+            setModal={setModal}
+            onGasto={handleGasto}
+            setGasto={setGasto}
+            gasto={gasto}
+            onEliminar={eliminarGasto}
+          />
         </Modal>
       )}
 
       {isValid && (
-        <Pressable onPress={handleOpen}>
+        <Pressable style={styles.pressable} onPress={handleOpen}>
           <Image
             source={require('./src/img/nuevo-gasto.png')}
             style={styles.imagen}
@@ -79,16 +152,21 @@ export default App;
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#3B82F6',
+    minHeight: 400,
   },
   contenedor: {
     backgroundColor: '#F5F5F5',
     flex: 1,
   },
+  pressable: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    bottom: 40,
+    right: 30,
+  },
   imagen: {
     width: 60,
     height: 60,
-    position: 'absolute',
-    top: 10,
-    right: 20,
   },
 });
