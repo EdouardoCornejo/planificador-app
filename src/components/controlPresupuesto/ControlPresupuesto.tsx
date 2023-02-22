@@ -1,5 +1,6 @@
 import React, {FC, useState, useEffect} from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Text} from 'react-native';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import {formatearCantidad} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
 import styles from './control.styles';
@@ -30,10 +31,7 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
   return (
     <View style={styles.contenedor}>
       <View style={styles.centrarGrafica}>
-        <Image
-          style={styles.imagen}
-          source={require('../../img/grafico.jpg')}
-        />
+        <CircularProgress value={50} />
       </View>
       <View style={styles.contenedorTexto}>
         <Text style={styles.valor}>
