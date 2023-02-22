@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, SetStateAction, useState, useEffect} from 'react';
 import {Pressable, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {generarID, soloNumeros} from '../../helpers';
+import {soloNumeros} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
 import styles from './formulario.styles';
 
@@ -21,12 +21,16 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
   const [nombre, setNombre] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [categoria, setCategoria] = useState('');
+  const [id, setId] = useState('');
+  const [fecha, setFecha] = useState(0);
 
   useEffect(() => {
     if (gasto?.nombre) {
       setNombre(gasto.nombre);
       setCantidad(gasto.cantidad);
       setCategoria(gasto.categoria);
+      setId(gasto.id);
+      setFecha(gasto.fecha);
     }
   }, [gasto]);
 
@@ -42,10 +46,13 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
   };
 
   const onAddGasto = () => {
-    const id = generarID();
-    const fecha = Date.now();
-    onGasto({nombre, cantidad, categoria, id, fecha});
+    if (gasto?.id) {
+      onGasto({nombre, cantidad, categoria, id, fecha});
+    } else {
+      onGasto({nombre, cantidad, categoria, id: '', fecha: 0});
+    }
   };
+
   const handleCantidad = (cantidad: string) => {
     const nuevaCantidad = soloNumeros(cantidad);
     setCantidad(nuevaCantidad);

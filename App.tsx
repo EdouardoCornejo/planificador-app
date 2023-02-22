@@ -15,6 +15,7 @@ import {
   FormularioGasto,
   ListadoGastos,
 } from './src/components/';
+import {generarID} from './src/helpers';
 import {gastoProp} from './src/Types/AppTypes';
 
 const App = () => {
@@ -40,14 +41,34 @@ const App = () => {
   };
 
   const handleOpen = () => setModal(!modal);
+
   const handleGasto = (gasto: gastoProp) => {
-    if (Object.values(gasto).includes('')) {
+    if ([gasto.nombre, gasto.categoria, gasto.cantidad].includes('')) {
       Alert.alert('Error:', 'Todos los campos son obligatorios');
       return;
     }
-    setGastos([...gastos, gasto]);
+
+    if (gasto.id) {
+      const gastosActualizados = gastos.map((gastoState: gastoProp) =>
+        gastoState.id === gasto.id ? gasto : gastoState,
+      );
+      setGastos(gastosActualizados);
+      setGasto({
+        cantidad: '',
+        categoria: '',
+        id: '',
+        nombre: '',
+        fecha: 0,
+      });
+    } else {
+      gasto.id = generarID();
+      gasto.fecha = Date.now();
+      setGastos([...gastos, gasto]);
+    }
+
     setModal(!modal);
   };
+
   const onCloseModal = () => setModal(!modal);
   return (
     <View style={styles.contenedor}>
