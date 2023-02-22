@@ -41,13 +41,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
-  btnCancelar: {
-    backgroundColor: '#DB2777',
+
+  contenedorBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  btn: {
     padding: 10,
     marginTop: 30,
     marginHorizontal: 10,
+    flex: 1,
   },
-  btnCancelarTexto: {
+  btnCancelar: {
+    backgroundColor: '#DB2777',
+  },
+  btnEliminar: {
+    backgroundColor: 'red',
+  },
+  btnTexto: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
     color: '#FFF',

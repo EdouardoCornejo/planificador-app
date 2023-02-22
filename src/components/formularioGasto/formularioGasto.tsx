@@ -10,6 +10,7 @@ interface FormularioGastoProps {
   onGasto: (gasto: gastoProp) => void;
   setGasto: (gasto: gastoProp) => void;
   gasto: gastoProp;
+  onEliminar: (id: string) => void;
 }
 
 const FormularioGasto: FC<FormularioGastoProps> = ({
@@ -17,6 +18,7 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
   onGasto,
   setGasto,
   gasto,
+  onEliminar,
 }) => {
   const [nombre, setNombre] = useState('');
   const [cantidad, setCantidad] = useState('');
@@ -57,13 +59,23 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
     const nuevaCantidad = soloNumeros(cantidad);
     setCantidad(nuevaCantidad);
   };
+
   const pickerValue = (value: string) => setCategoria(value);
 
+  const onDelete = () => onEliminar(id);
   return (
     <SafeAreaView style={styles.contenedor}>
-      <View>
-        <Pressable style={styles.btnCancelar} onLongPress={onCloseModal}>
-          <Text style={styles.btnCancelarTexto}>Cancelar</Text>
+      <View style={styles.contenedorBtn}>
+        <Pressable
+          style={[styles.btn, styles.btnCancelar]}
+          onLongPress={onCloseModal}>
+          <Text style={styles.btnTexto}>Cancelar</Text>
+        </Pressable>
+
+        <Pressable
+          style={[styles.btn, styles.btnEliminar]}
+          onLongPress={onDelete}>
+          <Text style={[styles.btnTexto]}>Eliminar</Text>
         </Pressable>
       </View>
 

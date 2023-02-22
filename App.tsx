@@ -69,6 +69,29 @@ const App = () => {
     setModal(!modal);
   };
 
+  const eliminarGasto = (id: string) => {
+    Alert.alert('¿Deseas Eliminar este gasto?', 'No se puede revertir', [
+      {text: 'Cancelar', style: 'cancel'},
+      {
+        text: 'Confirmar',
+        onPress: () => {
+          const gastosActualizados = gastos.filter(
+            gastoState => gastoState.id !== id,
+          );
+          setGastos(gastosActualizados);
+          setGasto({
+            cantidad: '',
+            categoria: '',
+            id: '',
+            nombre: '',
+            fecha: 0,
+          });
+          setModal(!Modal);
+        },
+      },
+    ]);
+  };
+
   const onCloseModal = () => setModal(!modal);
   return (
     <View style={styles.contenedor}>
@@ -108,12 +131,13 @@ const App = () => {
             onGasto={handleGasto}
             setGasto={setGasto}
             gasto={gasto}
+            onEliminar={eliminarGasto}
           />
         </Modal>
       )}
 
       {isValid && (
-        <Pressable onPress={handleOpen}>
+        <Pressable style={styles.pressable} onPress={handleOpen}>
           <Image
             source={require('./src/img/nuevo-gasto.png')}
             style={styles.imagen}
@@ -134,11 +158,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     flex: 1,
   },
+  pressable: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    bottom: 40,
+    right: 30,
+  },
   imagen: {
     width: 60,
     height: 60,
-    position: 'absolute',
-    bottom: 40,
-    right: 30,
   },
 });
