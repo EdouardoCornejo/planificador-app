@@ -16,6 +16,7 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
 }) => {
   const [disponible, setDisponible] = useState(0);
   const [gastado, setGastado] = useState(0);
+  const [porcentaje, setPorcentaje] = useState(0);
 
   useEffect(() => {
     const totalGastado = gastos.reduce(
@@ -24,6 +25,13 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
     );
     const totalDisponible = presupuesto - totalGastado;
 
+    const nuevoPorcentaje =
+      ((presupuesto - totalDisponible) / presupuesto) * 100;
+
+    setTimeout(() => {
+      setPorcentaje(nuevoPorcentaje);
+    }, 1000);
+
     setDisponible(totalDisponible);
     setGastado(totalGastado);
   }, [gastos, presupuesto]);
@@ -31,7 +39,20 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
   return (
     <View style={styles.contenedor}>
       <View style={styles.centrarGrafica}>
-        <CircularProgress value={50} />
+        <CircularProgress
+          value={porcentaje}
+          duration={1000}
+          radius={150}
+          valueSuffix={'%'}
+          valuePrefix={'$'}
+          title="Gastado"
+          inActiveStrokeColor="#F5F5F5"
+          inActiveStrokeWidth={20}
+          activeStrokeColor="#3B82F6"
+          activeStrokeWidth={20}
+          titleStyle={{fontWeight: 'bold', fontSize: 20}}
+          titleColor="#64748B"
+        />
       </View>
       <View style={styles.contenedorTexto}>
         <Text style={styles.valor}>

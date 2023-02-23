@@ -72,11 +72,13 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
           <Text style={styles.btnTexto}>Cancelar</Text>
         </Pressable>
 
-        <Pressable
-          style={[styles.btn, styles.btnEliminar]}
-          onLongPress={onDelete}>
-          <Text style={[styles.btnTexto]}>Eliminar</Text>
-        </Pressable>
+        {id && (
+          <Pressable
+            style={[styles.btn, styles.btnEliminar]}
+            onLongPress={onDelete}>
+            <Text style={[styles.btnTexto]}>Eliminar</Text>
+          </Pressable>
+        )}
       </View>
 
       <View style={styles.formulario}>
