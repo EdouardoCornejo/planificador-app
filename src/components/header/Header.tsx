@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import {Text, SafeAreaView} from 'react-native';
 import styles from './header.styles';
 
@@ -7,7 +7,7 @@ interface HeaderProps {}
 const Header: FC<HeaderProps> = () => {
   return (
     <SafeAreaView>
-      <Text style={styles.texto}> Planificador de Gastos</Text>
+      <Text style={styles.texto}>Planificador de Gastos</Text>
     </SafeAreaView>
   );
 };

@@ -15,6 +15,7 @@ const NuevoPresupuesto: FC<NuevoPresupuestoProps> = ({
   setPresupuesto,
 }) => {
   const onPresupuesto = () => handleNuevoPresupuesto(presupuesto.toString());
+
   const handlePresupuesto = (presupuesto: string) => {
     const nuevaCantidad = soloNumeros(presupuesto);
     setPresupuesto(nuevaCantidad);

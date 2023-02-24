@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",

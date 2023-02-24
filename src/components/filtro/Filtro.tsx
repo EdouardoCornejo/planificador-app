@@ -1,8 +1,8 @@
 import React, {Dispatch, FC, SetStateAction, useEffect} from 'react';
 import {Picker} from '@react-native-picker/picker';
-import {View, Text, StyleSheet} from 'react-native';
-import globalStyles from '../../styles';
+import {View, Text} from 'react-native';
 import {gastoProp} from '../../Types/AppTypes';
+import styles from './filtro.styles';
 
 interface FiltroProps {
   filtro: string;
@@ -51,16 +51,3 @@ const Filtro: FC<FiltroProps> = ({
 };
 
 export default Filtro;
-
-const styles = StyleSheet.create({
-  contenedor: {
-    ...globalStyles.contenedor,
-    transform: [{translateY: 0}],
-    marginTop: 80,
-  },
-  label: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#64748B',
-  },
-});
