@@ -116,6 +116,7 @@ const App = () => {
         nombre: '',
         fecha: 0,
       });
+      setFiltro('');
     } else {
       gasto.id = generarID();
       gasto.fecha = Date.now();

@@ -1,6 +1,7 @@
 import React, {Dispatch, FC, SetStateAction, useEffect} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {View, Text} from 'react-native';
+import {picker} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
 import styles from './filtro.styles';
 
@@ -37,14 +38,9 @@ const Filtro: FC<FiltroProps> = ({
       <Text style={styles.label}>Filtrar Gastos</Text>
 
       <Picker selectedValue={filtro} onValueChange={onFilter}>
-        <Picker.Item label="-- Seleccione" value="" />
-        <Picker.Item label="Ahorro" value="ahorro" />
-        <Picker.Item label="Comida" value="comida" />
-        <Picker.Item label="Casa" value="casa" />
-        <Picker.Item label="Gastos Varios" value="gastos" />
-        <Picker.Item label="Ocio" value="ocio" />
-        <Picker.Item label="Salud" value="salud" />
-        <Picker.Item label="Suscripciones" value="suscripciones" />
+        {picker.map(pick => (
+          <Picker.Item key={pick.id} label={pick.label} value={pick.value} />
+        ))}
       </Picker>
     </View>
   );
