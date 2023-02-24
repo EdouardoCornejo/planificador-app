@@ -156,6 +156,30 @@ const App = () => {
   };
 
   const onCloseModal = () => setModal(!modal);
+
+  const resetearApp = () => {
+    Alert.alert(
+      '¿Deseas Resetear la app?',
+      'Esto eliminará presupuesto y gastos',
+      [
+        {text: 'No', style: 'cancel'},
+        {
+          text: 'Aceptar',
+          onPress: async () => {
+            try {
+              await AsyncStorage.clear();
+              setIsValid(false);
+              setPresupuesto('0');
+              setGastos([]);
+            } catch (error) {
+              console.error(error);
+            }
+          },
+        },
+      ],
+    );
+  };
+
   return (
     <View style={styles.contenedor}>
       <ScrollView>
@@ -165,6 +189,7 @@ const App = () => {
             <ControlPresupuesto
               presupuesto={Number(presupuesto)}
               gastos={gastos}
+              resetearApp={resetearApp}
             />
           ) : (
             <NuevoPresupuesto

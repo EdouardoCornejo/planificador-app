@@ -1,5 +1,5 @@
 import React, {FC, useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import {formatearCantidad} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
@@ -8,11 +8,13 @@ import styles from './control.styles';
 interface ControlPresupuestoProps {
   presupuesto: number;
   gastos: gastoProp[];
+  resetearApp: () => void;
 }
 
 const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
   presupuesto,
   gastos,
+  resetearApp,
 }) => {
   const [disponible, setDisponible] = useState(0);
   const [gastado, setGastado] = useState(0);
@@ -55,6 +57,10 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
         />
       </View>
       <View style={styles.contenedorTexto}>
+        <Pressable style={styles.boton} onLongPress={resetearApp}>
+          <Text style={styles.textoBoton}>Reiniciar App</Text>
+        </Pressable>
+
         <Text style={styles.valor}>
           <Text style={styles.label}>Presupuesto: </Text>
           {formatearCantidad(presupuesto)}
