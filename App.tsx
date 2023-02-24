@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Header,
   NuevoPresupuesto,
@@ -23,7 +24,6 @@ const App = () => {
   const [isValid, setIsValid] = useState(false);
   const [presupuesto, setPresupuesto] = useState('0');
   const [gastos, setGastos] = useState<gastoProp[]>([]);
-
   const [modal, setModal] = useState(false);
   const [filtro, setFiltro] = useState('');
   const [gastosFiltrados, setGastosFiltrados] = useState<gastoProp[]>([]);
@@ -34,6 +34,65 @@ const App = () => {
     nombre: '',
     fecha: 0,
   });
+
+  /* Getting the presupuesto from the local storage. */
+  useEffect(() => {
+    const obtenerPresupuestoStorage = async () => {
+      try {
+        const presupuestoStorage =
+          (await AsyncStorage.getItem('planificador_presupuesto')) ?? '0';
+        if (Number(presupuestoStorage) > 0) {
+          setPresupuesto(presupuestoStorage);
+          setIsValid(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    obtenerPresupuestoStorage();
+  }, [presupuesto]);
+
+  /* Saving the presupuesto to the local storage. */
+  useEffect(() => {
+    if (isValid) {
+      const guardarPresupuestoStorage = async () => {
+        try {
+          await AsyncStorage.setItem('planificador_presupuesto', presupuesto);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      guardarPresupuestoStorage();
+    }
+  }, [isValid, presupuesto]);
+
+  /* Getting the gastos from the local storage. */
+  useEffect(() => {
+    const obtenerGastosStorage = async () => {
+      try {
+        const gastosStorage = await AsyncStorage.getItem('planificador_gastos');
+        setGastos(gastosStorage ? JSON.parse(gastosStorage) : []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    obtenerGastosStorage();
+  }, []);
+
+  /* Saving the gastos to the local storage. */
+  useEffect(() => {
+    const guardarGastosStorage = async () => {
+      try {
+        await AsyncStorage.setItem(
+          'planificador_gastos',
+          JSON.stringify(gastos),
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    guardarGastosStorage();
+  }, [gastos]);
 
   const handleNuevoPresupuesto = (presupuesto: string) => {
     if (Number(presupuesto) > 0) {

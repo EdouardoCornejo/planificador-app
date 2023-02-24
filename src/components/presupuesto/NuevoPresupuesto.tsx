@@ -19,6 +19,7 @@ const NuevoPresupuesto: FC<NuevoPresupuestoProps> = ({
     const nuevaCantidad = soloNumeros(presupuesto);
     setPresupuesto(nuevaCantidad);
   };
+
   return (
     <View style={styles.contenedor}>
       <Text style={styles.label}>Definir Presupuesto</Text>

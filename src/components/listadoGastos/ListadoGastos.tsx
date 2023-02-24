@@ -41,10 +41,9 @@ const ListadoGastos: FC<ListadoGastosProps> = ({
             />
           ))}
 
-      {gastos.length === 0 ||
-        (gastosFiltrados.length === 0 && !!filtro && (
-          <Text style={styles.noGasto}>No hay gastos</Text>
-        ))}
+      {(gastos.length === 0 || (gastosFiltrados.length === 0 && !!filtro)) && (
+        <Text style={styles.noGasto}>No hay gastos</Text>
+      )}
     </View>
   );
 };
