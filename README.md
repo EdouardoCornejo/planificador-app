@@ -1,9 +1,15 @@
 # planificador-app
-
 # run-Android
-
-npx react-native run-android
+yarn android
 
 # run-ios
+yarn ios
 
-npx react-native run-android
+# run-metro
+yarn start
+
+# run-jest-test
+yarn test 
+yarn test:watch
+
+

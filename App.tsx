@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Alert,
-  Pressable,
-  Image,
-  Modal,
-  ScrollView,
-} from 'react-native';
+import {View, Alert, Pressable, Image, Modal, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Header,
@@ -19,6 +11,7 @@ import {
 } from './src/components/';
 import {generarID} from './src/helpers';
 import {gastoProp} from './src/Types/AppTypes';
+import styles from './src/styles/app.styles';
 
 const App = () => {
   const [isValid, setIsValid] = useState(false);
@@ -247,25 +240,3 @@ const App = () => {
   );
 };
 export default App;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#3B82F6',
-    minHeight: 400,
-  },
-  contenedor: {
-    backgroundColor: '#F5F5F5',
-    flex: 1,
-  },
-  pressable: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    bottom: 40,
-    right: 30,
-  },
-  imagen: {
-    width: 60,
-    height: 60,
-  },
-});
