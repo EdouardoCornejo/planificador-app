@@ -15,10 +15,12 @@ const NuevoPresupuesto: FC<NuevoPresupuestoProps> = ({
   setPresupuesto,
 }) => {
   const onPresupuesto = () => handleNuevoPresupuesto(presupuesto.toString());
+
   const handlePresupuesto = (presupuesto: string) => {
     const nuevaCantidad = soloNumeros(presupuesto);
     setPresupuesto(nuevaCantidad);
   };
+
   return (
     <View style={styles.contenedor}>
       <Text style={styles.label}>Definir Presupuesto</Text>

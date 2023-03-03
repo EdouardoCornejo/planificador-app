@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   contenedor: {
-    marginTop: 70,
+    marginTop: 30,
     marginBottom: 100,
   },
   titulo: {

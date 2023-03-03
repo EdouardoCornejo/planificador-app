@@ -15,3 +15,9 @@ export interface categorias {
   salud: string;
   suscripciones: string;
 }
+
+export interface pickerTypes {
+  id: number;
+  label: string;
+  value: string;
+}

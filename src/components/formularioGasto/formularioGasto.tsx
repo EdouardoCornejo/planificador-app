@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, SetStateAction, useState, useEffect} from 'react';
 import {Pressable, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {soloNumeros} from '../../helpers';
+import {picker, soloNumeros} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
 import styles from './formulario.styles';
 
@@ -72,11 +72,13 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
           <Text style={styles.btnTexto}>Cancelar</Text>
         </Pressable>
 
-        <Pressable
-          style={[styles.btn, styles.btnEliminar]}
-          onLongPress={onDelete}>
-          <Text style={[styles.btnTexto]}>Eliminar</Text>
-        </Pressable>
+        {id && (
+          <Pressable
+            style={[styles.btn, styles.btnEliminar]}
+            onLongPress={onDelete}>
+            <Text style={[styles.btnTexto]}>Eliminar</Text>
+          </Pressable>
+        )}
       </View>
 
       <View style={styles.formulario}>
@@ -108,19 +110,17 @@ const FormularioGasto: FC<FormularioGastoProps> = ({
         <View style={styles.campo}>
           <Text style={styles.label}>Categoria Gasto</Text>
           <Picker selectedValue={categoria} onValueChange={pickerValue}>
-            <Picker.Item label="-- Seleccione" value="" />
-            <Picker.Item label="Ahorro" value="ahorro" />
-            <Picker.Item label="Comida" value="comida" />
-            <Picker.Item label="Casa" value="casa" />
-            <Picker.Item label="Gastos Varios" value="gastos" />
-            <Picker.Item label="Ocio" value="ocio" />
-            <Picker.Item label="Salud" value="salud" />
-            <Picker.Item label="Suscripciones" value="suscripciones" />
+            {picker.map(pick => (
+              <Picker.Item
+                key={pick.id}
+                label={pick.label}
+                value={pick.value}
+              />
+            ))}
           </Picker>
         </View>
         <Pressable style={styles.submitBtn} onPress={onAddGasto}>
           <Text style={styles.submitBtnTexto}>
-            {' '}
             {gasto?.nombre ? 'Actualizar Registro' : 'Agregar Gasto'}
           </Text>
         </Pressable>

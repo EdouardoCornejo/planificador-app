@@ -3,6 +3,7 @@ import FormularioGasto from './formularioGasto';
 import Header from './header';
 import ListadoGastos from './listadoGastos';
 import NuevoPresupuesto from './presupuesto';
+import Filtro from './filtro';
 
 export {
   ControlPresupuesto,
@@ -10,4 +11,5 @@ export {
   Header,
   ListadoGastos,
   NuevoPresupuesto,
+  Filtro,
 };

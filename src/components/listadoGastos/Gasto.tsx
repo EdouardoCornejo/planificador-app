@@ -1,6 +1,10 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
 import {Text, View, Image, Pressable} from 'react-native';
-import {formatearCantidad, formatearFecha} from '../../helpers';
+import {
+  formatearCantidad,
+  formatearFecha,
+  diccionarioIconos,
+} from '../../helpers';
 import {categorias, gastoProp} from '../../Types/AppTypes';
 import styles from './gasto.styles';
 
@@ -10,22 +14,14 @@ interface GastoProps {
   setGasto: (gasto: gastoProp) => void;
 }
 
-const diccionarioIconos = {
-  ahorro: require('../../img/icono_ahorro.png'),
-  comida: require('../../img/icono_comida.png'),
-  casa: require('../../img/icono_casa.png'),
-  gastos: require('../../img/icono_gastos.png'),
-  ocio: require('../../img/icono_ocio.png'),
-  salud: require('../../img/icono_salud.png'),
-  suscripciones: require('../../img/icono_suscripciones.png'),
-};
-
 const Gasto: FC<GastoProps> = ({gasto, setModal, setGasto}) => {
   const {cantidad, categoria, nombre, fecha} = gasto;
+
   const handleAcciones = () => {
     setModal(true);
     setGasto(gasto);
   };
+
   return (
     <Pressable onLongPress={handleAcciones}>
       <View style={styles.contenedor}>

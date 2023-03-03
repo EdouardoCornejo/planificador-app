@@ -1,5 +1,6 @@
 import React, {FC, useState, useEffect} from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import {formatearCantidad} from '../../helpers';
 import {gastoProp} from '../../Types/AppTypes';
 import styles from './control.styles';
@@ -7,14 +8,17 @@ import styles from './control.styles';
 interface ControlPresupuestoProps {
   presupuesto: number;
   gastos: gastoProp[];
+  resetearApp: () => void;
 }
 
 const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
   presupuesto,
   gastos,
+  resetearApp,
 }) => {
   const [disponible, setDisponible] = useState(0);
   const [gastado, setGastado] = useState(0);
+  const [porcentaje, setPorcentaje] = useState(0);
 
   useEffect(() => {
     const totalGastado = gastos.reduce(
@@ -23,6 +27,13 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
     );
     const totalDisponible = presupuesto - totalGastado;
 
+    const nuevoPorcentaje =
+      ((presupuesto - totalDisponible) / presupuesto) * 100;
+
+    setTimeout(() => {
+      setPorcentaje(nuevoPorcentaje);
+    }, 1000);
+
     setDisponible(totalDisponible);
     setGastado(totalGastado);
   }, [gastos, presupuesto]);
@@ -30,12 +41,26 @@ const ControlPresupuesto: FC<ControlPresupuestoProps> = ({
   return (
     <View style={styles.contenedor}>
       <View style={styles.centrarGrafica}>
-        <Image
-          style={styles.imagen}
-          source={require('../../img/grafico.jpg')}
+        <CircularProgress
+          value={porcentaje}
+          duration={1000}
+          radius={150}
+          valueSuffix={'%'}
+          valuePrefix={'$'}
+          title="Gastado"
+          inActiveStrokeColor="#F5F5F5"
+          inActiveStrokeWidth={20}
+          activeStrokeColor="#3B82F6"
+          activeStrokeWidth={20}
+          titleStyle={{fontWeight: 'bold', fontSize: 20}}
+          titleColor="#64748B"
         />
       </View>
       <View style={styles.contenedorTexto}>
+        <Pressable style={styles.boton} onLongPress={resetearApp}>
+          <Text style={styles.textoBoton}>Reiniciar App</Text>
+        </Pressable>
+
         <Text style={styles.valor}>
           <Text style={styles.label}>Presupuesto: </Text>
           {formatearCantidad(presupuesto)}
